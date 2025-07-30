@@ -172,7 +172,10 @@
         <div class="bg-[#2a2a2a] text-neutral-200 flex justify-between items-center md:hidden sticky top-0 z-40 border-b border-neutral-700">
             <a href="#" class="block p-4 font-bold text-blue-400">The Ultimate Guide to Excel VBA</a>
             <div class="flex items-center">
-                 <span id="mobile-datetime" class="text-xs text-neutral-400 pr-2 whitespace-nowrap"></span>
+                 <div id="mobile-datetime-pill" class="bg-neutral-700/50 rounded-full px-3 py-1 text-xs text-neutral-400 text-center mr-2">
+                    <div id="mobile-time" class="font-mono"></div>
+                    <div id="mobile-date" class="font-mono"></div>
+                </div>
                  <button id="mobile-menu-button" class="p-4 focus:outline-none focus:bg-neutral-700">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
@@ -198,7 +201,7 @@
                 <a href="#part7" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">assignment</span>Part VII: Real-World Projects</a>
                 <a href="#part8" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined text-purple-400">auto_awesome</span>Part VIII: AI Assistant</a>
             </nav>
-            <div id="desktop-datetime" class="p-4 text-center text-xs text-neutral-500 border-t border-neutral-700">
+            <div id="desktop-datetime" class="p-4 text-center text-xs text-neutral-500 border-t border-neutral-700 font-mono">
                 <!-- Date and time will be inserted here -->
             </div>
         </aside>
@@ -594,7 +597,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const loopContents = document.querySelectorAll('#loop-tabs .tab-content');
     const copyButtons = document.querySelectorAll('.copy-btn');
     const desktopDateTime = document.getElementById('desktop-datetime');
-    const mobileDateTime = document.getElementById('mobile-datetime');
+    const mobileTime = document.getElementById('mobile-time');
+    const mobileDate = document.getElementById('mobile-date');
 
     function toggleMenu() {
         sidebar.classList.toggle('-translate-x-full');
@@ -820,23 +824,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateDateTime() {
         const now = new Date();
-        const options = {
-            weekday: 'short',
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
+        const timeOptions = {
             hour: 'numeric',
             minute: 'numeric',
+            second: 'numeric',
             timeZone: 'Asia/Kolkata',
             hour12: true
         };
-        const formattedDateTime = new Intl.DateTimeFormat('en-IN', options).format(now);
+        const dateOptions = {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            timeZone: 'Asia/Kolkata',
+        };
+
+        const formattedTime = new Intl.DateTimeFormat('en-IN', timeOptions).format(now);
+        const formattedDate = new Intl.DateTimeFormat('en-IN', dateOptions).format(now);
+        const fullFormattedDateTime = new Intl.DateTimeFormat('en-IN', { ...dateOptions, year: 'numeric', ...timeOptions }).format(now);
 
         if (desktopDateTime) {
-            desktopDateTime.textContent = formattedDateTime + " (IST)";
+            desktopDateTime.textContent = fullFormattedDateTime + " (IST)";
         }
-        if (mobileDateTime) {
-            mobileDateTime.textContent = formattedDateTime + " (IST)";
+        if (mobileTime && mobileDate) {
+            mobileTime.textContent = formattedTime;
+            mobileDate.textContent = formattedDate;
         }
     }
 
