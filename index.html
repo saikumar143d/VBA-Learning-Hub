@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprehensive Interactive Guide to Excel VBA with AI Assistant</title>
+    <title>The Ultimate Guide to Excel VBA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chosen Palette: Perplexity Inspired Dark Theme -->
-    <!-- Application Structure Plan: The application uses a fixed, non-scrolling sidebar on desktop for persistent navigation, and a collapsible, overlay sidebar on mobile for optimal screen use. This allows users to follow a structured path or jump to topics efficiently on any device. The redesign incorporates a dark theme inspired by Perplexity, using a dark grey/blue palette for a modern, focused feel. The app includes a comprehensive tutorial, real-world projects, and an AI Assistant powered by the Gemini API for code generation, explanation, and error fixing. -->
+    <!-- Application Structure Plan: The application uses a fixed, non-scrolling sidebar on desktop for persistent navigation, and a collapsible, overlay sidebar on mobile for optimal screen use. This allows users to follow a structured path or jump to topics efficiently on any device. The design incorporates a dark theme inspired by Perplexity, using a dark grey/blue palette for a modern, focused feel. The app includes a comprehensive tutorial, real-world projects, and an AI Assistant powered by the Gemini API for code generation, explanation, refactoring, project ideas, and error fixing. -->
     <!-- Visualization & Content Choices: 
         - Report Info: All VBA concepts -> Goal: Inform/Teach -> Viz/Presentation: Content organized into cards with Material Icons for visual cues, styled for a dark theme. -> Interaction: Sidebar navigation, interactive diagrams -> Justification: Improves readability and visual appeal in a modern dark UI.
-        - Report Info: Real-world projects -> Goal: Apply knowledge -> Viz/Presentation: A new dedicated section with step-by-step project guides -> Interaction: Users can read through the build process and copy code -> Justification: Directly addresses the user request for practical application, bridging theory and practice.
+        - Report Info: Real-world projects -> Goal: Apply knowledge -> Viz/Presentation: A dedicated section with step-by-step project guides -> Interaction: Users can read through the build process and copy code -> Justification: Directly addresses the user request for practical application, bridging theory and practice.
         - Report Info: Gemini API Integration -> Goal: Assist/Accelerate -> Viz/Presentation: A dedicated "AI Assistant" section with distinct cards for code generation, explanation, and debugging, with a purple accent color. -> Interaction: Users input text, click a button, and receive AI-generated output. -> Justification: Provides powerful, on-demand support that significantly enhances the learning and development process.
         - Report Info: Excel Object Model -> Goal: Organize/Inform -> Viz/Presentation: Interactive tree diagram with Material Icons -> Interaction: Click to expand/collapse -> Justification: The visual hierarchy is made clearer and more intuitive with recognizable icons.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: #1c1c1c;
             color: #e0e0e0;
         }
@@ -53,6 +53,7 @@
             padding: 1rem;
             position: relative;
             border: 1px solid #333;
+            overflow-x: auto;
         }
         .copy-btn {
             position: absolute;
@@ -83,8 +84,8 @@
             background-color: #2a2a2a;
             border-radius: 8px;
             border: 1px solid #3a3a3a;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
         }
         .ai-output {
             background-color: #1c1c1c;
@@ -109,13 +110,35 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        textarea {
+        textarea, input[type="text"] {
             background-color: #3a3a3a;
             border-color: #555;
             color: #e0e0e0;
         }
-        textarea::placeholder {
+        textarea::placeholder, input[type="text"]::placeholder {
             color: #888;
+        }
+        .tab-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .tab-container::-webkit-scrollbar-thumb {
+            background-color: #4a4a4a;
+            border-radius: 2px;
+        }
+        p, ul, ol {
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+        strong {
+            font-weight: 600;
+            color: #fafafa;
+        }
+        code {
+            font-family: 'Fira Code', monospace;
+            background-color: #3a3a3a;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-size: 0.85em;
         }
     </style>
 </head>
@@ -124,7 +147,7 @@
     <div class="bg-[#1c1c1c]">
         <!-- Mobile Header -->
         <div class="bg-[#2a2a2a] text-neutral-200 flex justify-between md:hidden sticky top-0 z-40 border-b border-neutral-700">
-            <a href="#" class="block p-4 font-bold text-blue-400">VBA Learning Hub</a>
+            <a href="#" class="block p-4 font-bold text-blue-400">The Ultimate Guide to Excel VBA</a>
             <button id="mobile-menu-button" class="p-4 focus:outline-none focus:bg-neutral-700">
                 <span class="material-symbols-outlined">menu</span>
             </button>
@@ -135,14 +158,14 @@
             <div class="px-4 pt-7 pb-4 border-b border-neutral-700">
                 <h1 class="text-xl font-bold text-blue-400 flex items-center gap-2">
                     <span class="material-symbols-outlined text-blue-400">integration_instructions</span>
-                    VBA Learning Hub
+                    The Ultimate Guide to Excel VBA
                 </h1>
                 <p class="text-sm text-neutral-400">From Novice to Automation Master</p>
             </div>
             <nav id="main-nav" class="flex-grow overflow-y-auto p-2">
                 <a href="#part1" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">rocket_launch</span>Part I: Getting Started</a>
                 <a href="#part2" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">code</span>Part II: Core Language</a>
-                <a href="#part3" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">account_tree</span>Part III: Excel Object Model</a>
+                <a href="#part3" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">account_tree</span>Part III: The Object Model</a>
                 <a href="#part4" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">build</span>Part IV: Building Solutions</a>
                 <a href="#part5" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">extension</span>Part V: Advanced Toolkit</a>
                 <a href="#part6" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">verified</span>Part VI: Best Practices</a>
@@ -156,66 +179,76 @@
 
         <!-- Main Content -->
         <div class="md:ml-72">
-            <main class="p-6 md:p-10">
+            <main class="p-4 sm:p-6 md:p-8">
                 
                 <section id="part1" class="content-section">
-                    <h2 class="text-3xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">rocket_launch</span>Part I: Getting Started with VBA</h2>
-                    <p class="mb-6 text-lg text-neutral-400">This foundational part ensures you're properly oriented and have your environment set up correctly. It answers the crucial "what" and "why" questions before diving into the "how."</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">rocket_launch</span>Part I: Getting Started with VBA</h2>
+                    <p class="mb-5 text-sm md:text-base text-neutral-400 max-w-prose">This foundational part ensures you're properly oriented and have your environment set up correctly. It answers the crucial "what" and "why" questions before diving into the "how."</p>
+                    
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-blue-400">help_outline</span>What is VBA?</h3>
-                        <p>Visual Basic for Applications (VBA) is a programming language embedded within Microsoft Office applications. Its primary purpose is to automate repetitive tasks and extend the built-in functionality of programs like Excel. Nearly any operation you can perform manually—from formatting a cell to creating a chart or sending an email—can be scripted and executed with VBA, saving time and reducing errors. It acts as a powerful "digital glue" that can bind the entire Office ecosystem together, allowing Excel to control Word, Outlook, and more.</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-blue-400">help_outline</span>Introduction to VBA</h3>
+                        <h4 class="text-base md:text-lg font-medium mt-4 mb-2 text-neutral-200">What is VBA and Why It's Still a Powerhouse</h4>
+                        <p class="mb-4 max-w-prose">Visual Basic for Applications (VBA) is a programming language embedded within Microsoft Office. Its primary purpose is to automate repetitive tasks and extend the built-in functionality of programs like Excel. Nearly any operation you can perform manually can be scripted with VBA, saving time and reducing errors. While newer tools like Python and Power Query exist, VBA's direct, native access to the Excel <strong>object model</strong> gives it a level of granular control that is unmatched for deep application customization and for orchestrating complex workflows between Office applications like Word and Outlook.</p>
+                        
+                        <h4 class="text-base md:text-lg font-medium mt-5 mb-2 text-neutral-200">Real-World Applications</h4>
+                        <ul class="list-disc list-inside ml-4 space-y-2 max-w-prose">
+                            <li><strong>Task Automation:</strong> Generate daily reports, format large datasets, and consolidate data from hundreds of files with a single click.</li>
+                            <li><strong>Custom Functionality:</strong> Create custom worksheet functions (UDFs) for specialized calculations and build user-friendly interfaces with UserForms.</li>
+                            <li><strong>Cross-Application Workflows:</strong> Write a script in Excel that automatically composes and sends customized emails via Outlook, complete with attachments generated from your spreadsheet.</li>
+                        </ul>
+
+                        <h4 class="text-base md:text-lg font-medium mt-5 mb-2 text-neutral-200">VBA vs. Macros vs. Office Scripts</h4>
+                        <p class="max-w-prose">A <strong>macro</strong> is the result; <strong>VBA</strong> is the language used to create it. The Macro Recorder is a tool that translates your actions into VBA code. <strong>Office Scripts</strong> are a modern, cloud-first alternative using TypeScript, ideal for Excel on the web and collaborative automation. An expert knows when to use each tool: <strong>Power Query</strong> for data transformation, <strong>Office Scripts</strong> for the cloud, and <strong>VBA</strong> for deep, desktop-focused application control and interoperability.</p>
                     </div>
+
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-blue-400">developer_mode</span>Activating the Developer Tab</h3>
-                        <p class="mb-4">The gateway to all VBA tools is the Developer tab, which is hidden by default. Here's how to enable it:</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-blue-400">developer_mode</span>Setting Up Your Environment</h3>
+                        <h4 class="text-base md:text-lg font-medium mt-4 mb-2 text-neutral-200">Activating the Developer Tab</h4>
+                        <p class="mb-4 max-w-prose">The Developer tab is your gateway to all VBA tools and is hidden by default. This is a one-time setup.</p>
                         <div class="grid md:grid-cols-2 gap-6">
                             <div class="bg-neutral-800 p-4 rounded-lg border border-neutral-700">
-                                <h4 class="font-semibold flex items-center gap-2 text-neutral-200"><span class="material-symbols-outlined">desktop_windows</span>For Windows:</h4>
+                                <h5 class="font-semibold flex items-center gap-2 text-neutral-200"><span class="material-symbols-outlined">desktop_windows</span>For Windows:</h5>
                                 <ol class="list-decimal list-inside text-neutral-300 mt-2">
-                                    <li>Go to <span class="font-semibold text-neutral-100">File > Options</span>.</li>
-                                    <li>Select <span class="font-semibold text-neutral-100">Customize Ribbon</span>.</li>
-                                    <li>In the right-hand list, check the box for <span class="font-semibold text-neutral-100">Developer</span>.</li>
-                                    <li>Click <span class="font-semibold text-neutral-100">OK</span>.</li>
+                                    <li>Go to <span class="font-semibold text-neutral-100">File > Options > Customize Ribbon</span>.</li>
+                                    <li>In the right-hand list, check the box for <span class="font-semibold text-neutral-100">Developer</span> and click OK.</li>
                                 </ol>
                             </div>
                             <div class="bg-neutral-800 p-4 rounded-lg border border-neutral-700">
-                                <h4 class="font-semibold flex items-center gap-2 text-neutral-200"><span class="material-symbols-outlined">laptop_mac</span>For macOS:</h4>
+                                <h5 class="font-semibold flex items-center gap-2 text-neutral-200"><span class="material-symbols-outlined">laptop_mac</span>For macOS:</h5>
                                 <ol class="list-decimal list-inside text-neutral-300 mt-2">
-                                    <li>Go to <span class="font-semibold text-neutral-100">Excel > Preferences</span>.</li>
-                                    <li>Select <span class="font-semibold text-neutral-100">Ribbon & Toolbar</span>.</li>
-                                    <li>In the right-hand list, check the box for <span class="font-semibold text-neutral-100">Developer</span>.</li>
-                                    <li>Click <span class="font-semibold text-neutral-100">Save</span>.</li>
+                                    <li>Go to <span class="font-semibold text-neutral-100">Excel > Preferences > Ribbon & Toolbar</span>.</li>
+                                    <li>In the right-hand list, check the box for <span class="font-semibold text-neutral-100">Developer</span> and click Save.</li>
                                 </ol>
                             </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-blue-400">wysiwyg</span>The Visual Basic Editor (VBE)</h3>
-                        <p>The VBE is your command center for writing and editing VBA code. Open it from the Developer tab or with the universal shortcut <kbd class="px-2 py-1.5 text-xs font-semibold text-neutral-200 bg-neutral-700 border border-neutral-600 rounded-lg">Alt + F11</kbd> (Windows) or <kbd class="px-2 py-1.5 text-xs font-semibold text-neutral-200 bg-neutral-700 border border-neutral-600 rounded-lg">Opt + F11</kbd> (macOS). It runs in a separate window, allowing you to write code and see its effects in Excel simultaneously.</p>
+
+                        <h4 class="text-base md:text-lg font-medium mt-5 mb-2 text-neutral-200">Navigating the Visual Basic Editor (VBE)</h4>
+                        <p class="max-w-prose">The VBE is your command center for writing and editing code. Open it from the Developer tab or with the universal shortcut <kbd class="px-2 py-1.5 text-xs font-semibold text-neutral-200 bg-neutral-700 border border-neutral-600 rounded-lg">Alt + F11</kbd> (Windows) or <kbd class="px-2 py-1.5 text-xs font-semibold text-neutral-200 bg-neutral-700 border border-neutral-600 rounded-lg">Opt + F11</kbd> (macOS). Key windows to know are the <strong>Project Explorer</strong> (for navigation), <strong>Properties Window</strong> (for object settings), <strong>Code Window</strong> (for writing code), and the <strong>Immediate Window</strong> (<code>Ctrl+G</code>) for testing and debugging.</p>
                     </div>
                 </section>
+
                 <section id="part2" class="content-section">
-                    <h2 class="text-3xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">code</span>Part II: The Language of VBA: Core Programming Constructs</h2>
-                    <p class="mb-6 text-lg text-neutral-400">This part transitions from the environment to the language itself, covering the fundamental building blocks of any VBA program.</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">code</span>Part II: The Language of VBA: Core Programming Constructs</h2>
+                    <p class="mb-5 text-sm md:text-base text-neutral-400 max-w-prose">This part transitions from the environment to the language itself, covering the fundamental building blocks of any VBA program.</p>
                     
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Chapter 3: Your First Steps in Coding</h3>
-                        <h4 class="text-xl font-medium mb-2 text-neutral-200">The Macro Recorder: A Learner's Best Friend (and Its Limitations)</h4>
-                        <p class="mb-4">The Macro Recorder is an invaluable learning tool. It translates your actions in Excel into VBA code. By recording a simple task, you can see the exact code needed to perform it. However, the recorder often produces inefficient code using `.Select`. It's best used as a starting point: record a task, then study and refactor the code to make it more direct and efficient.</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Your First Steps in Coding</h3>
+                        <h4 class="text-base md:text-lg font-medium mb-2 text-neutral-200">The Macro Recorder: A Learner's Best Friend (and Its Limitations)</h4>
+                        <p class="mb-4 max-w-prose">The Macro Recorder translates your actions in Excel into VBA code. It's an invaluable tool for discovering the objects, properties, and methods needed for a task. However, it often produces inefficient code using <code>.Select</code>. The best approach is a "Record, Refactor, Learn" cycle: record a small action, study the generated code, and then rewrite it to be more direct and efficient.</p>
                         
-                        <h4 class="text-xl font-medium mt-6 mb-2 text-neutral-200">Understanding Procedures: The Difference Between `Sub` and `Function`</h4>
-                        <p class="mb-4">All VBA code is organized into procedures. The two primary types are `Sub` and `Function`.</p>
+                        <h4 class="text-base md:text-lg font-medium mt-5 mb-2 text-neutral-200">Understanding Procedures: The Difference Between `Sub` and `Function`</h4>
+                        <p class="mb-4 max-w-prose">All VBA code is organized into procedures. The two primary types are <strong><code>Sub</code></strong> and <strong><code>Function</code></strong>.</p>
                         <div class="grid md:grid-cols-2 gap-6">
-                            <div class="border border-blue-900/50 bg-blue-500/5 p-4 rounded-lg">
-                                <h5 class="font-bold text-lg text-blue-400 flex items-center gap-2"><span class="material-symbols-outlined">play_arrow</span>Sub Procedures (Subroutines)</h5>
-                                <p class="mt-2">A `Sub` performs an action but **does not** return a value. Use it to automate tasks like formatting a report or saving a file. All macros are `Sub` procedures.</p>
+                            <div class="border border-blue-900/50 bg-blue-500/5 p-4 rounded-lg flex flex-col">
+                                <h5 class="font-bold text-base text-blue-400 flex items-center gap-2"><span class="material-symbols-outlined">play_arrow</span>Sub Procedures (Subroutines)</h5>
+                                <p class="mt-2 flex-grow">A <strong><code>Sub</code></strong> performs an action but <strong>does not</strong> return a value. Use it to automate tasks like formatting a report or saving a file. All macros are <strong><code>Sub</code></strong> procedures.</p>
                                 <pre class="code-block mt-2 fira-code text-sm"><button class="copy-btn"><span class="material-symbols-outlined text-sm">content_copy</span>Copy</button><span class="text-pink-400">Sub</span> FormatReportHeader()
         Range("A1").Font.Bold = <span class="text-yellow-300">True</span>
     <span class="text-pink-400">End Sub</span></pre>
                             </div>
-                            <div class="border border-green-900/50 bg-green-500/5 p-4 rounded-lg">
-                                <h5 class="font-bold text-lg text-green-400 flex items-center gap-2"><span class="material-symbols-outlined">functions</span>Function Procedures</h5>
-                                <p class="mt-2">A `Function` performs a calculation and **returns** a value. Use it to create custom formulas (User-Defined Functions or UDFs) that you can use in worksheet cells.</p>
+                            <div class="border border-green-900/50 bg-green-500/5 p-4 rounded-lg flex flex-col">
+                                <h5 class="font-bold text-base text-green-400 flex items-center gap-2"><span class="material-symbols-outlined">functions</span>Function Procedures</h5>
+                                <p class="mt-2 flex-grow">A <strong><code>Function</code></strong> performs a calculation and <strong>returns</strong> a value. Use it to create custom formulas (User-Defined Functions or UDFs) that you can use in worksheet cells.</p>
                                 <pre class="code-block mt-2 fira-code text-sm"><button class="copy-btn"><span class="material-symbols-outlined text-sm">content_copy</span>Copy</button><span class="text-pink-400">Function</span> CalculateVAT(amount <span class="text-pink-400">As Double</span>) <span class="text-pink-400">As Double</span>
         CalculateVAT = amount * 0.2
     <span class="text-pink-400">End Function</span></pre>
@@ -224,35 +257,37 @@
                     </div>
 
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Chapter 4: Variables, Constants, and Data Types</h3>
-                        <h4 class="text-xl font-medium mb-2 text-neutral-200">Storing Information: Declaring and Using Variables</h4>
-                        <p class="mb-4">A **variable** is a named storage location for data that can change as your code runs. You declare them using the `Dim` keyword. A critical best practice is to put `Option Explicit` at the top of every module to force declaration, which helps catch typos.</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Variables, Constants, and Data Types</h3>
+                        <h4 class="text-base md:text-lg font-medium mb-2 text-neutral-200">Storing Information: Declaring and Using Variables</h4>
+                        <p class="mb-4 max-w-prose">A <strong>variable</strong> is a named storage location for data that can change as your code runs. You declare them using the <code>Dim</code> keyword. A critical best practice is to put <code>Option Explicit</code> at the top of every module to force declaration, which helps catch typos.</p>
                         
-                        <h4 class="text-xl font-medium mt-6 mb-2 text-neutral-200">Understanding Scope: Where Your Variables Live</h4>
-                        <p class="mb-4">A variable's **scope** determines where it can be used:</p>
-                        <ul class="list-disc list-inside ml-4 space-y-2">
-                            <li><b>Procedure-Level (`Dim`):</b> Exists only within the `Sub` or `Function` it's declared in. This is the most common and safest scope.</li>
-                            <li><b>Module-Level (`Private`):</b> Available to all procedures within the same code module.</li>
-                            <li><b>Public (`Public`):</b> Available to all procedures in the entire project. Use with caution.</li>
+                        <h4 class="text-base md:text-lg font-medium mt-5 mb-2 text-neutral-200">Understanding Scope: Where Your Variables Live</h4>
+                        <p class="mb-4 max-w-prose">A variable's <strong>scope</strong> determines where it can be used:</p>
+                        <ul class="list-disc list-inside ml-4 space-y-2 max-w-prose">
+                            <li><strong>Procedure-Level (<code>Dim</code>):</strong> Exists only within the <code>Sub</code> or <code>Function</code> it's declared in. This is the most common and safest scope.</li>
+                            <li><strong>Module-Level (<code>Private</code>):</strong> Available to all procedures within the same code module.</li>
+                            <li><strong>Public (<code>Public</code>):</strong> Available to all procedures in the entire project. Use with caution.</li>
                         </ul>
 
-                        <h4 class="text-xl font-medium mt-6 mb-2 text-neutral-200">Choosing the Right Data Type for Efficiency</h4>
-                        <p class="mb-4">Specifying a data type tells VBA what kind of data to expect, which saves memory and makes your code faster. If you don't specify a type, VBA uses `Variant`, which is flexible but slow.</p>
-                        <p>Common types include `String` (for text), `Long` (for whole numbers, especially row counts), `Double` (for numbers with decimals), `Boolean` (for True/False), and `Object` (for Excel objects like Ranges).</p>
+                        <h4 class="text-base md:text-lg font-medium mt-5 mb-2 text-neutral-200">Choosing the Right Data Type for Efficiency</h4>
+                        <p class="mb-4 max-w-prose">Specifying a data type tells VBA what kind of data to expect, which saves memory and makes your code faster. If you don't specify a type, VBA uses <code>Variant</code>, which is flexible but slow.</p>
+                        <p class="max-w-prose">Common types include <strong><code>String</code></strong> (for text), <strong><code>Long</code></strong> (for whole numbers, especially row counts), <strong><code>Double</code></strong> (for numbers with decimals), <strong><code>Boolean</code></strong> (for True/False), and <strong><code>Object</code></strong> (for Excel objects like Ranges).</p>
                     </div>
                     
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Chapter 5 & 6: Operators and Control Flow</h3>
-                        <p class="mb-4">These constructs allow your code to make decisions and perform repetitive tasks.</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Operators and Control Flow</h3>
+                        <p class="mb-4 max-w-prose">These constructs allow your code to make decisions and perform repetitive tasks.</p>
                         <div id="loop-tabs">
-                            <div class="border-b border-neutral-700">
-                                <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                                    <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-blue-400 text-blue-400" data-target="if-then"><span class="material-symbols-outlined">call_split</span>If...Then</button>
-                                    <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-neutral-400 hover:text-neutral-200 hover:border-neutral-500" data-target="select-case"><span class="material-symbols-outlined">view_list</span>Select Case</button>
-                                    <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-neutral-400 hover:text-neutral-200 hover:border-neutral-500" data-target="for-next"><span class="material-symbols-outlined">repeat</span>For...Next</button>
-                                    <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-neutral-400 hover:text-neutral-200 hover:border-neutral-500" data-target="for-each"><span class="material-symbols-outlined">repeat_on</span>For Each</button>
-                                    <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-neutral-400 hover:text-neutral-200 hover:border-neutral-500" data-target="do-loop"><span class="material-symbols-outlined">all_inclusive</span>Do...Loop</button>
-                                </nav>
+                            <div class="border-b border-neutral-700 overflow-hidden">
+                                <div class="tab-container overflow-x-auto -mb-px">
+                                    <nav class="flex space-x-8" aria-label="Tabs">
+                                        <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-blue-400 text-blue-400" data-target="if-then"><span class="material-symbols-outlined">call_split</span>If...Then</button>
+                                        <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-neutral-400 hover:text-neutral-200 hover:border-neutral-500" data-target="select-case"><span class="material-symbols-outlined">view_list</span>Select Case</button>
+                                        <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-neutral-400 hover:text-neutral-200 hover:border-neutral-500" data-target="for-next"><span class="material-symbols-outlined">repeat</span>For...Next</button>
+                                        <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-neutral-400 hover:text-neutral-200 hover:border-neutral-500" data-target="for-each"><span class="material-symbols-outlined">repeat_on</span>For Each</button>
+                                        <button class="tab-btn flex items-center gap-2 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-neutral-400 hover:text-neutral-200 hover:border-neutral-500" data-target="do-loop"><span class="material-symbols-outlined">all_inclusive</span>Do...Loop</button>
+                                    </nav>
+                                </div>
                             </div>
                             <div class="mt-4">
                                 <div id="if-then" class="tab-content">
@@ -299,44 +334,39 @@
                     </div>
                 </section>
                 <section id="part3" class="content-section">
-                    <h2 class="text-3xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">account_tree</span>Part III: Mastering the Excel Object Model</h2>
-                    <p class="mb-6 text-lg text-neutral-400">This is the most critical part for Excel automation. The Object Model is the hierarchy of all elements in Excel. Understanding how to navigate it is the key to controlling the application.</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">account_tree</span>Part III: Mastering the Excel Universe: The Object Model</h2>
+                    <p class="mb-5 text-sm md:text-base text-neutral-400 max-w-prose">This is the most critical part for Excel-specific automation. It explains how VBA interacts with the components of Excel.</p>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Interactive Object Hierarchy</h3>
-                        <p class="mb-4">Click the items below to explore the structure. This hierarchy is how VBA sees Excel. To control a cell, you must navigate from the Application down to the Range.</p>
-                        <div id="object-model-viz" class="p-4 border rounded-lg bg-neutral-800 border-neutral-700">
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Understanding the Excel Object Hierarchy</h3>
+                        <p class="mb-4 max-w-prose">Every element in Excel—the application, workbooks, worksheets, cells—is an <strong>object</strong>. Each object has <strong>properties</strong> (adjectives, like <code>.Value</code> or <code>.Font.Color</code>) and <strong>methods</strong> (verbs, like <code>.Copy</code> or <code>.Delete</code>). These objects exist in a strict hierarchy called the <strong>Object Model</strong>. To control something, you must navigate down this hierarchy.</p>
+                        <h4 class="text-base md:text-lg font-medium mt-5 mb-2 text-neutral-200">The Key Players: Application, Workbook, Worksheet, and Range</h4>
+                        <p class="mb-4 max-w-prose">Your work will primarily revolve around these four objects. A <strong>fully qualified reference</strong> navigates the full path, like <code>Application.Workbooks("Sales.xlsx").Worksheets("Data").Range("A1")</code>. Unqualified references like <code>Range("A1")</code> are unreliable because they depend on what sheet is active. <strong>Best Practice:</strong> Use fully qualified references or, even better, assign objects to variables.</p>
+                        <div id="object-model-viz" class="p-4 border rounded-lg bg-neutral-800 border-neutral-700 mt-4">
                             <!-- Object model will be generated by JS -->
                         </div>
                     </div>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Best Practice: Referencing Objects</h3>
-                        <p class="mb-4">Avoid relying on `ActiveSheet` or `ActiveWorkbook`. Your code can easily break if the user clicks somewhere else. Always be explicit by using fully qualified references or, even better, object variables.</p>
-                         <div class="grid md:grid-cols-2 gap-6">
-                            <div class="border border-red-900/80 bg-red-500/5 p-4 rounded-lg">
-                                <h4 class="font-bold text-lg text-red-400 flex items-center gap-2"><span class="material-symbols-outlined">dangerous</span>Unreliable Code</h4>
-                                <p class="mt-2">This code acts on whatever sheet is currently active. It's dangerous!</p>
-                                <pre class="code-block mt-2 fira-code text-sm"><button class="copy-btn"><span class="material-symbols-outlined text-sm">content_copy</span>Copy</button>Range("A1").ClearContents</pre>
-                            </div>
-                            <div class="border border-green-900/80 bg-green-500/5 p-4 rounded-lg">
-                                <h4 class="font-bold text-lg text-green-400 flex items-center gap-2"><span class="material-symbols-outlined">task_alt</span>Robust Code</h4>
-                                <p class="mt-2">This code explicitly targets a specific worksheet. It's safe and reliable.</p>
-                                <pre class="code-block mt-2 fira-code text-sm"><button class="copy-btn"><span class="material-symbols-outlined text-sm">content_copy</span>Copy</button><span class="text-pink-400">Dim</span> ws <span class="text-pink-400">As Worksheet</span>
-    <span class="text-pink-400">Set</span> ws = ThisWorkbook.Worksheets("Data")
-    ws.Range("A1").ClearContents</pre>
-                            </div>
-                        </div>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Manipulating Workbooks, Worksheets, and Ranges</h3>
+                        <p class="mb-4 max-w-prose">VBA gives you full control over files, sheets, and cells.</p>
+                         <ul class="list-disc list-inside ml-4 space-y-2 max-w-prose">
+                            <li><strong>Workbooks:</strong> Use <code>Workbooks.Add</code> to create, <code>Workbooks.Open</code> to open, <code>.SaveAs</code> to save, and <code>.Close</code> to close. Always prefer <code>ThisWorkbook</code> to refer to the file containing your code.</li>
+                            <li><strong>Worksheets:</strong> Use <code>Worksheets.Add</code>, <code>.Delete</code>, and the <code>.Visible</code> property (which can be set to <code>xlSheetVeryHidden</code> to hide from the UI). Referencing sheets by their <strong>CodeName</strong> (e.g., <code>Sheet1</code>) is the most robust method.</li>
+                            <li><strong>Ranges:</strong> The <code>Range</code> object is your primary tool for data. You can reference it with A1-style notation (<code>Range("A1")</code>) or row/column numbers (<code>Cells(1, 1)</code>), which is ideal for loops.</li>
+                            <li><strong>Dynamic Ranges:</strong> Don't hardcode ranges like <code>"A1:A100"</code>. Use <code>Cells(Rows.Count, 1).End(xlUp)</code> to find the last used row in a column, or <code>.CurrentRegion</code> to select a whole block of data.</li>
+                        </ul>
                     </div>
                 </section>
                 <section id="part4" class="content-section">
-                    <h2 class="text-3xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">build</span>Part IV: Building Sophisticated Solutions</h2>
-                    <p class="mb-6 text-lg text-neutral-400">Move beyond basic manipulation to creating interactive and robust applications with UserForms and proper error handling.</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">build</span>Part IV: Building Sophisticated Solutions</h2>
+                    <p class="mb-5 text-sm md:text-base text-neutral-400 max-w-prose">Move beyond basic manipulation to creating interactive and robust applications.</p>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Interacting with the User</h3>
-                        <p class="mb-4">VBA provides simple tools for user communication (`MsgBox`, `InputBox`) and more advanced tools for custom interfaces (`UserForms`). UserForms are the key to creating professional-feeling applications with custom GUIs containing text boxes, dropdowns, buttons, and more.</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Interacting with the User</h3>
+                        <p class="mb-4 max-w-prose">For simple communication, use <code>MsgBox</code> for alerts and <code>InputBox</code> for single data entry. For more complex interactions, <strong>UserForms</strong> are the solution. A UserForm is a custom dialog box you design with controls like text boxes, dropdowns, and buttons to create a professional graphical user interface (GUI). Code is attached to the <strong>events</strong> of these controls, such as a button's <code>Click</code> event.</p>
                     </div>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Error Handling</h3>
-                        <p class="mb-4">Runtime errors will crash your program. Good error handling with `On Error GoTo` anticipates problems and manages them gracefully. This is non-negotiable for professional code.</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Robust Code: Error Handling and Debugging</h3>
+                        <p class="mb-4 max-w-prose">Professional code doesn't crash. <strong>Error handling</strong> anticipates and manages runtime errors gracefully. Use <code>On Error GoTo [Label]</code> to jump to an error-handling block of code when something goes wrong. Inside that block, you can inspect the built-in <code>Err</code> object (e.g., <code>Err.Number</code>, <code>Err.Description</code>) to diagnose the problem.</p>
+                        <p class="max-w-prose">The VBE's <strong>debugging tools</strong> are essential for finding and fixing bugs. Use <strong>Breakpoints (F9)</strong> to pause execution, <strong>Step-Through (F8)</strong> to run code one line at a time, and the <strong>Immediate Window (Ctrl+G)</strong> to inspect variables and test code on the fly.</p>
                          <pre class="code-block mt-2 fira-code text-sm"><button class="copy-btn"><span class="material-symbols-outlined text-sm">content_copy</span>Copy</button><span class="text-pink-400">Sub</span> ErrorHandlingExample()
         <span class="text-pink-400">On Error GoTo</span> MyErrorHandler
         <span class="text-pink-400">Dim</span> x <span class="text-pink-400">As Integer</span>: x = 1 / 0
@@ -347,136 +377,67 @@
                     </div>
                 </section>
                 <section id="part5" class="content-section">
-                    <h2 class="text-3xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">extension</span>Part V: The Ultimate VBA Toolkit</h2>
-                    <p class="mb-6 text-lg text-neutral-400">Elevate your skills from simple scripting to building powerful, scalable applications with advanced data structures and external interactions.</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">extension</span>Part V: The Ultimate VBA Toolkit: Advanced Techniques</h2>
+                    <p class="mb-5 text-sm md:text-base text-neutral-400 max-w-prose">Elevate your skills from simple scripting to building powerful, scalable applications.</p>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">High-Performance Data Processing with Arrays</h3>
-                        <p class="mb-4">One of the most significant VBA optimization techniques is to minimize interaction with the worksheet. Reading a range into an array, processing it in memory, and writing it back is orders of magnitude faster than looping through cells.</p>
-                        <pre class="code-block mt-2 fira-code text-sm"><button class="copy-btn"><span class="material-symbols-outlined text-sm">content_copy</span>Copy</button><span class="text-pink-400">Dim</span> dataArray <span class="text-pink-400">As Variant</span>
-    dataArray = Range("A1:E1000").Value
-    <span class="text-pink-400">For</span> i = 1 <span class="text-pink-400">To</span> 1000
-        dataArray(i, 5) = dataArray(i, 3) * dataArray(i, 4)
-    <span class="text-pink-400">Next</span> i
-    Range("A1:E1000").Value = dataArray</pre>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Data Structures and Custom Objects</h3>
+                        <p class="mb-4 max-w-prose">For high-performance data processing, read worksheet ranges into <strong>Arrays</strong>, manipulate the data in memory, and write the array back in a single operation. For flexible lists, use <strong>Collections</strong>. For fast, key-based lookups (e.g., finding a record by ID), use <strong>Dictionaries</strong>. For ultimate organization, create your own objects using <strong>Class Modules</strong>, which act as blueprints to bundle related data (properties) and actions (methods) together, allowing you to model real-world entities like "Invoices" or "Employees".</p>
                     </div>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Collections and Dictionaries</h3>
-                        <p class="mb-4">For flexible data management, use Collections or Dictionaries. Dictionaries are superior for fast lookups using a unique key, making them ideal for checking for duplicates or finding records by an ID.</p>
-                    </div>
-                    <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Controlling Other Applications & The Web</h3>
-                        <p class="mb-4">VBA's power extends beyond Excel. You can write code in Excel to automate Word and Outlook. You can also communicate with web APIs to pull live data (e.g., stock quotes, weather) directly into your sheets.</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Interacting with the Outside World</h3>
+                        <p class="mb-4 max-w-prose">VBA can control the file system, other Office applications, and even the web.</p>
+                        <ul class="list-disc list-inside ml-4 space-y-2 max-w-prose">
+                           <li><strong>File System Operations:</strong> Read from and write to external text and CSV files.</li>
+                           <li><strong>Cross-Application Automation:</strong> Control Word to create reports or Outlook to send automated emails directly from Excel.</li>
+                           <li><strong>APIs:</strong> Pull live data from web services (APIs) to get stock quotes or weather data, and even call Windows API functions for low-level system control.</li>
+                        </ul>
                     </div>
                 </section>
                 <section id="part6" class="content-section">
-                    <h2 class="text-3xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">verified</span>Part VI: From Code to Craftsmanship</h2>
-                    <p class="mb-6 text-lg text-neutral-400">Refine your code, ensure it is professional, secure, and easily distributable.</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">verified</span>Part VI: From Code to Craftsmanship: Best Practices and Deployment</h2>
+                    <p class="mb-5 text-sm md:text-base text-neutral-400 max-w-prose">Refine your code, ensure it is professional, secure, and easily distributable.</p>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Code Optimization</h3>
-                        <ol class="list-decimal list-inside space-y-3">
-                            <li><b class="font-semibold text-neutral-100">Turn Off Screen Updating:</b> Wrap your code in `Application.ScreenUpdating = False` and `True`.</li>
-                            <li><b class="font-semibold text-neutral-100">Minimize Worksheet Interaction:</b> Use arrays for data processing.</li>
-                            <li><b class="font-semibold text-neutral-100">Avoid `.Select` and `.Activate`:</b> Directly reference objects.</li>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Writing Professional-Grade Code</h3>
+                        <ol class="list-decimal list-inside space-y-3 max-w-prose">
+                            <li><strong class="text-neutral-100">Optimize Performance:</strong> At the start of your code, turn off screen updating, automatic calculations, and events (<code>Application.ScreenUpdating = False</code>). Turn them back on at the end. This provides a massive speed boost.</li>
+                            <li><strong class="text-neutral-100">Minimize Worksheet Interaction:</strong> Use arrays for data processing instead of looping through cells.</li>
+                            <li><strong class="text-neutral-100">Avoid <code>.Select</code> and <code>.Activate</code>:</strong> Directly reference objects instead of selecting them.</li>
+                            <li><strong class="text-neutral-100">Protect Your Code:</strong> Lock your VBA project with a password (<code>Tools > VBAProject Properties</code>) to protect your intellectual property.</li>
                         </ol>
                     </div>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Distributing Your Solutions as Add-ins</h3>
-                        <p class="mb-4">To share your macros or custom functions, save your project as an <b class="font-semibold text-neutral-100">Excel Add-in (.xlam)</b> file. This is the professional way to deploy VBA solutions, making them available globally within a user's Excel environment.</p>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Distributing Your Solutions</h3>
+                        <p class="mb-4 max-w-prose">To share your macros or custom functions with others, save your project as an <strong>Excel Add-in (.xlam)</strong> file. This is the professional way to deploy VBA solutions, making them available globally within a user's Excel environment without needing to have a specific macro-enabled workbook open.</p>
                     </div>
                 </section>
                 <section id="part7" class="content-section">
-                    <h2 class="text-3xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">assignment</span>Part VII: Real-World Projects</h2>
-                    <p class="mb-6 text-lg text-neutral-400">Apply your knowledge by building practical solutions from start to finish. These projects integrate multiple concepts from the guide.</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-blue-400">assignment</span>Part VII: Real-World Projects</h2>
+                    <p class="mb-5 text-sm md:text-base text-neutral-400 max-w-prose">Apply your knowledge by building practical solutions from start to finish. These projects integrate multiple concepts from the guide.</p>
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Project 1: Automated Report Formatter</h3>
-                        <p class="mb-4"><b>Objective:</b> Create a macro that takes a raw, unformatted data export and automatically transforms it into a professional-looking report.</p>
-                        <h4 class="font-semibold mt-4 mb-2 text-neutral-200">Build Process:</h4>
-                        <ol class="list-decimal list-inside space-y-2">
-                            <li><b>Setup:</b> Create a `Sub` procedure. Declare object variables for the worksheet and the data range.</li>
-                            <li><b>Define Dynamic Range:</b> Use `CurrentRegion` to identify the entire block of raw data. This makes the code adaptable to reports of any size.</li>
-                            <li><b>Clean & Format:</b>
-                                <ul class="list-disc list-inside ml-6 mt-1">
-                                    <li>Clear any previous formatting.</li>
-                                    <li>Apply bold formatting and a background color to the header row.</li>
-                                    <li>Use the `.AutoFit` method on columns to adjust their width.</li>
-                                    <li>Apply number formatting (e.g., currency, percentage) to data columns.</li>
-                                </ul>
-                            </li>
-                            <li><b>Add Totals:</b> Add a "Total" row at the bottom and use the `.Formula` property to insert `=SUM()` formulas.</li>
-                        </ol>
-                        <pre class="code-block mt-4 fira-code text-sm"><button class="copy-btn"><span class="material-symbols-outlined text-sm">content_copy</span>Copy</button><span class="text-pink-400">Sub</span> FormatSalesReport()
-        <span class="text-pink-400">Dim</span> ws <span class="text-pink-400">As Worksheet</span>
-        <span class="text-pink-400">Dim</span> dataRange <span class="text-pink-400">As Range</span>
-        <span class="text-pink-400">Dim</span> lastRow <span class="text-pink-400">As Long</span>
-    
-        <span class="text-pink-400">Set</span> ws = ThisWorkbook.Worksheets("SalesData")
-        <span class="text-pink-400">Set</span> dataRange = ws.Range("A1").CurrentRegion
-        
-        <span class="text-green-400">' 1. Clean and Format</span>
-        dataRange.Columns.AutoFit
-        dataRange.Interior.Color = xlNone
-        <span class="text-pink-400">With</span> dataRange.Rows(1).Font
-            .Bold = <span class="text-yellow-300">True</span>
-            .Size = 12
-        <span class="text-pink-400">End With</span>
-        dataRange.Columns(3).NumberFormat = "$#,##0.00" <span class="text-green-400">' Sales Amount</span>
-    
-        <span class="text-green-400">' 2. Add Totals</span>
-        lastRow = dataRange.Rows.Count
-        ws.Cells(lastRow + 1, 2).Value = "Total"
-        ws.Cells(lastRow + 1, 3).Formula = "=SUM(C2:C" & lastRow & ")"
-    <span class="text-pink-400">End Sub</span></pre>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Project 1 (Beginner): Automated Report Formatter</h3>
+                        <p class="mb-4 max-w-prose">Create a macro that takes a raw data export and automatically transforms it into a professional report by cleaning data, applying formatting, setting column widths, and adding total formulas.</p>
                     </div>
-                    <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 text-neutral-100">Project 2: Interactive Data Entry Form</h3>
-                        <p class="mb-4"><b>Objective:</b> Build a custom UserForm to capture new employee information and add it to a database table on a hidden worksheet.</p>
-                        <h4 class="font-semibold mt-4 mb-2 text-neutral-200">Build Process:</h4>
-                        <ol class="list-decimal list-inside space-y-2">
-                            <li><b>Design the Form:</b> Create a new UserForm. Add `Label` and `TextBox` controls for "Employee Name", "Department", and "Start Date". Add `CommandButton` controls for "Submit" and "Cancel".</li>
-                            <li><b>Code the 'Cancel' Button:</b> In the `Click` event for the Cancel button, simply add the line `Unload Me` to close the form.</li>
-                            <li><b>Code the 'Submit' Button:</b> This is the core logic.
-                                <ul class="list-disc list-inside ml-6 mt-1">
-                                    <li>Declare a variable for the database worksheet.</li>
-                                    <li>Find the next empty row in the database sheet using `.End(xlUp).Offset(1, 0)`.</li>
-                                    <li>Perform basic validation: check if the text boxes are empty. If so, show a `MsgBox` and exit the sub.</li>
-                                    <li>Write the values from the form's text boxes to the cells in the next empty row.</li>
-                                    <li>Clear the text boxes for the next entry.</li>
-                                    <li>Show a confirmation `MsgBox` to the user.</li>
-                                </ul>
-                            </li>
-                            <li><b>Show the Form:</b> Create a simple `Sub` in a standard module to call `YourFormName.Show`.</li>
-                        </ol>
-                         <pre class="code-block mt-4 fira-code text-sm"><button class="copy-btn"><span class="material-symbols-outlined text-sm">content_copy</span>Copy</button><span class="text-green-400">' Code for the "Submit" button's Click event on the UserForm</span>
-    <span class="text-pink-400">Private Sub</span> SubmitButton_Click()
-        <span class="text-pink-400">Dim</span> dbSheet <span class="text-pink-400">As Worksheet</span>
-        <span class="text-pink-400">Dim</span> nextRow <span class="text-pink-400">As Range</span>
-    
-        <span class="text-pink-400">Set</span> dbSheet = ThisWorkbook.Worksheets("Database")
-        <span class="text-pink-400">Set</span> nextRow = dbSheet.Cells(dbSheet.Rows.Count, 1).End(xlUp).Offset(1, 0)
-    
-        <span class="text-green-400">' Validation</span>
-        <span class="text-pink-400">If</span> Me.NameTextBox.Value = "" <span class="text-pink-400">Then</span>
-            MsgBox "Employee Name is required.", vbExclamation
-            <span class="text-pink-400">Exit Sub</span>
-        <span class="text-pink-400">End If</span>
-        
-        <span class="text-green-400">' Write data</span>
-        nextRow.Value = Me.NameTextBox.Value
-        nextRow.Offset(0, 1).Value = Me.DepartmentTextBox.Value
-        nextRow.Offset(0, 2).Value = CDate(Me.DateTextBox.Value)
-    
-        MsgBox "Employee added successfully!", vbInformation
-    <span class="text-pink-400">End Sub</span></pre>
+                     <div class="card">
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Project 2 (Intermediate): Interactive Data Entry Form</h3>
+                        <p class="mb-4 max-w-prose">Build a custom UserForm to capture new customer information. The code will validate the input and then write the new record to the next available row on a hidden database sheet.</p>
+                    </div>
+                     <div class="card">
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Project 3 (Advanced): Cross-Application Report Mailer</h3>
+                        <p class="mb-4 max-w-prose">Build a tool that summarizes data in Excel, copies the results into a Word template, saves the Word doc as a PDF, and then emails that PDF as an attachment via Outlook to a list of recipients stored in Excel.</p>
+                    </div>
+                     <div class="card">
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 text-neutral-100">Project 4 (Expert): Live Data Dashboard</h3>
+                        <p class="mb-4 max-w-prose">Create a dashboard with a "Refresh" button that calls a web API to pull live data (e.g., financial data), parses the JSON response, and updates charts and tables in Excel.</p>
                     </div>
                 </section>
 
                 <!-- Part VIII: AI Assistant -->
                 <section id="part8" class="content-section">
-                    <h2 class="text-3xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-purple-400">auto_awesome</span>Part VIII: AI Assistant</h2>
-                    <p class="mb-6 text-lg text-neutral-400">Leverage the power of AI to accelerate your VBA development. These tools, powered by the Gemini API, can help you write, understand, and debug code faster.</p>
+                    <h2 class="text-xl md:text-2xl font-bold mb-4 text-neutral-100 flex items-center gap-3"><span class="material-symbols-outlined text-3xl text-purple-400">auto_awesome</span>Part VIII: AI Assistant</h2>
+                    <p class="mb-5 text-sm md:text-base text-neutral-400 max-w-prose">Leverage the power of AI to accelerate your VBA development. These tools, powered by the Gemini API, can help you write, understand, and debug code faster.</p>
 
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-blue-400">translate</span>Code Explainer</h3>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-blue-400">translate</span>Code Explainer</h3>
                         <p class="mb-4">Stuck on a complex piece of code? Paste it below and let the AI explain it to you in plain English.</p>
                         <textarea id="explain-input" class="w-full p-2 border rounded fira-code" rows="8" placeholder="Paste your VBA code here..."></textarea>
                         <button id="explain-btn" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2">
@@ -486,7 +447,7 @@
                     </div>
 
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-purple-400">tips_and_updates</span>Code Generator</h3>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-purple-400">tips_and_updates</span>Code Generator</h3>
                         <p class="mb-4">Describe the task you want to automate, and the AI will generate the VBA code for you.</p>
                         <textarea id="generate-input" class="w-full p-2 border rounded" rows="4" placeholder="e.g., 'Create a macro to delete all blank rows on the active sheet'"></textarea>
                         <button id="generate-btn" class="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 flex items-center gap-2">
@@ -496,11 +457,33 @@
                             <pre class="code-block fira-code text-sm"></pre>
                         </div>
                     </div>
+                    
+                    <div class="card">
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-green-400">model_training</span>Code Refactor</h3>
+                        <p class="mb-4">Have code that works but is slow or hard to read? Paste it here to get an improved version that follows best practices.</p>
+                        <textarea id="refactor-input" class="w-full p-2 border rounded fira-code" rows="8" placeholder="Paste inefficient or messy VBA code here..."></textarea>
+                        <button id="refactor-btn" class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center gap-2">
+                            <span class="material-symbols-outlined">magic_button</span>Refactor Code
+                        </button>
+                        <div id="refactor-output" class="ai-output">
+                             <pre class="code-block fira-code text-sm"></pre>
+                        </div>
+                    </div>
 
                     <div class="card">
-                        <h3 class="text-2xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-red-400">bug_report</span>Error Helper</h3>
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-yellow-400">lightbulb</span>Project Idea Generator</h3>
+                        <p class="mb-4">Need inspiration? Enter a topic or industry, and the AI will suggest some VBA projects to build.</p>
+                        <input type="text" id="ideas-input" class="w-full p-2 border rounded" placeholder="e.g., 'Finance', 'Data Cleaning', 'Inventory Management'">
+                        <button id="ideas-btn" class="mt-4 px-4 py-2 bg-yellow-600 text-black rounded hover:bg-yellow-700 flex items-center gap-2">
+                            <span class="material-symbols-outlined">emoji_objects</span>Get Ideas
+                        </button>
+                        <div id="ideas-output" class="ai-output"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-red-400">bug_report</span>Error Helper</h3>
                         <p class="mb-4">Getting an error message you don't understand? Paste it here for a possible explanation and solution.</p>
-                        <textarea id="error-input" class="w-full p-2 border rounded" rows="2" placeholder="e.g., 'Run-time error '9': Subscript out of range'"></textarea>
+                        <input type="text" id="error-input" class="w-full p-2 border rounded" placeholder="e.g., 'Run-time error '9': Subscript out of range'">
                         <button id="error-btn" class="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-2">
                             <span class="material-symbols-outlined">build</span>Suggest Fix
                         </button>
@@ -648,14 +631,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const explainBtn = document.getElementById('explain-btn');
     const generateBtn = document.getElementById('generate-btn');
     const errorBtn = document.getElementById('error-btn');
+    const refactorBtn = document.getElementById('refactor-btn');
+    const ideasBtn = document.getElementById('ideas-btn');
 
     const explainInput = document.getElementById('explain-input');
     const generateInput = document.getElementById('generate-input');
     const errorInput = document.getElementById('error-input');
+    const refactorInput = document.getElementById('refactor-input');
+    const ideasInput = document.getElementById('ideas-input');
 
     const explainOutput = document.getElementById('explain-output');
     const generateOutput = document.getElementById('generate-output').querySelector('pre');
     const errorOutput = document.getElementById('error-output');
+    const refactorOutput = document.getElementById('refactor-output').querySelector('pre');
+    const ideasOutput = document.getElementById('ideas-output');
 
     const apiKey = ""; 
 
@@ -722,6 +711,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!userError.trim()) return;
         const prompt = `I got the following error in my Excel VBA code: "${userError}". What are the most common causes for this error and how can I fix it? Provide a clear, step-by-step guide for debugging.`;
         callGeminiAPI(prompt, errorOutput, false);
+    });
+    
+    refactorBtn.addEventListener('click', () => {
+        const userCode = refactorInput.value;
+        if (!userCode.trim()) return;
+        const prompt = `Refactor the following Excel VBA code to improve its performance, readability, and to follow best practices (e.g., avoid .Select, use explicit references, use appropriate data types). Provide only the refactored code, with brief comments explaining the key improvements. Original code:\n\n${userCode}`;
+        callGeminiAPI(prompt, refactorOutput, true);
+    });
+
+    ideasBtn.addEventListener('click', () => {
+        const userTopic = ideasInput.value;
+        if (!userTopic.trim()) return;
+        const prompt = `Generate 3 distinct Excel VBA project ideas related to the following topic or industry: "${userTopic}". For each idea, provide a brief description and a list of the key VBA concepts that would be used to build it. Format the response cleanly.`;
+        callGeminiAPI(prompt, ideasOutput, false);
     });
 
 
