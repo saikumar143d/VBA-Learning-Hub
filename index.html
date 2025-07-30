@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guide to Excel VBA</title>
+    <title>The Ultimate Guide to Excel VBA</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chosen Palette: Perplexity Inspired Dark Theme -->
@@ -169,11 +169,14 @@
 
     <div class="bg-[#1c1c1c]">
         <!-- Mobile Header -->
-        <div class="bg-[#2a2a2a] text-neutral-200 flex justify-between md:hidden sticky top-0 z-40 border-b border-neutral-700">
-            <a href="#" class="block p-4 font-bold text-blue-400">Guide to Excel VBA</a>
-            <button id="mobile-menu-button" class="p-4 focus:outline-none focus:bg-neutral-700">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
+        <div class="bg-[#2a2a2a] text-neutral-200 flex justify-between items-center md:hidden sticky top-0 z-40 border-b border-neutral-700">
+            <a href="#" class="block p-4 font-bold text-blue-400">The Ultimate Guide to Excel VBA</a>
+            <div class="flex items-center">
+                 <span id="mobile-datetime" class="text-xs text-neutral-400 pr-2 whitespace-nowrap"></span>
+                 <button id="mobile-menu-button" class="p-4 focus:outline-none focus:bg-neutral-700">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
         </div>
 
         <!-- Sidebar -->
@@ -181,7 +184,7 @@
             <div class="px-4 pt-7 pb-4 border-b border-neutral-700">
                 <h1 class="text-xl font-bold text-blue-400 flex items-center gap-2">
                     <span class="material-symbols-outlined text-blue-400">integration_instructions</span>
-                    Guide to Excel VBA
+                    The Ultimate Guide to Excel VBA
                 </h1>
                 <p class="text-sm text-neutral-400">From Novice to Automation Master</p>
             </div>
@@ -195,6 +198,9 @@
                 <a href="#part7" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined">assignment</span>Part VII: Real-World Projects</a>
                 <a href="#part8" class="nav-link p-4 rounded-md"><span class="material-symbols-outlined text-purple-400">auto_awesome</span>Part VIII: AI Assistant</a>
             </nav>
+            <div id="desktop-datetime" class="p-4 text-center text-xs text-neutral-500 border-t border-neutral-700">
+                <!-- Date and time will be inserted here -->
+            </div>
         </aside>
 
         <!-- Backdrop for mobile menu -->
@@ -587,6 +593,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const loopTabs = document.querySelectorAll('#loop-tabs .tab-btn');
     const loopContents = document.querySelectorAll('#loop-tabs .tab-content');
     const copyButtons = document.querySelectorAll('.copy-btn');
+    const desktopDateTime = document.getElementById('desktop-datetime');
+    const mobileDateTime = document.getElementById('mobile-datetime');
 
     function toggleMenu() {
         sidebar.classList.toggle('-translate-x-full');
@@ -810,6 +818,27 @@ document.addEventListener('DOMContentLoaded', function() {
         callGeminiAPI(prompt, ideasOutput, false);
     });
 
+    function updateDateTime() {
+        const now = new Date();
+        const options = {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            timeZone: 'Asia/Kolkata',
+            hour12: true
+        };
+        const formattedDateTime = new Intl.DateTimeFormat('en-IN', options).format(now);
+
+        if (desktopDateTime) {
+            desktopDateTime.textContent = formattedDateTime + " (IST)";
+        }
+        if (mobileDateTime) {
+            mobileDateTime.textContent = formattedDateTime + " (IST)";
+        }
+    }
 
     window.addEventListener('popstate', () => {
         showSectionByHash(window.location.hash);
@@ -817,6 +846,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial load
     showSectionByHash(window.location.hash || '#part1');
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
 });
 </script>
 
