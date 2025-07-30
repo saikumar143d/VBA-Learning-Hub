@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Ultimate Guide to Excel VBA</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chosen Palette: Perplexity Inspired Dark Theme -->
     <!-- Application Structure Plan: The application uses a fixed, non-scrolling sidebar on desktop for persistent navigation, and a collapsible, overlay sidebar on mobile for optimal screen use. This allows users to follow a structured path or jump to topics efficiently on any device. The design incorporates a dark theme inspired by Perplexity, using a dark grey/blue palette for a modern, focused feel. The app includes a comprehensive tutorial, real-world projects, and an AI Assistant powered by the Gemini API for code generation, explanation, refactoring, project ideas, and error fixing. -->
@@ -450,7 +451,7 @@
                         <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-purple-400">tips_and_updates</span>Code Generator</h3>
                         <p class="mb-4">Describe the task you want to automate, and the AI will generate the VBA code for you.</p>
                         <textarea id="generate-input" class="w-full p-2 border rounded" rows="4" placeholder="e.g., 'Create a macro to delete all blank rows on the active sheet'"></textarea>
-                        <button id="generate-btn" class="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 flex items-center gap-2">
+                        <button id="generate-btn" class="mt-4 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 flex items-center gap-2">
                             <span class="material-symbols-outlined">auto_awesome</span>Generate Code
                         </button>
                         <div id="generate-output" class="ai-output">
@@ -474,7 +475,7 @@
                         <h3 class="text-lg md:text-xl font-semibold mb-3 flex items-center gap-2 text-neutral-100"><span class="material-symbols-outlined text-yellow-400">lightbulb</span>Project Idea Generator</h3>
                         <p class="mb-4">Need inspiration? Enter a topic or industry, and the AI will suggest some VBA projects to build.</p>
                         <input type="text" id="ideas-input" class="w-full p-2 border rounded" placeholder="e.g., 'Finance', 'Data Cleaning', 'Inventory Management'">
-                        <button id="ideas-btn" class="mt-4 px-4 py-2 bg-yellow-600 text-black rounded hover:bg-yellow-700 flex items-center gap-2">
+                        <button id="ideas-btn" class="mt-4 px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 flex items-center gap-2">
                             <span class="material-symbols-outlined">emoji_objects</span>Get Ideas
                         </button>
                         <div id="ideas-output" class="ai-output"></div>
